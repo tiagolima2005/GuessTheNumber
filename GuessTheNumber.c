@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 int main()
 {
@@ -26,11 +27,12 @@ int main()
         {
             printf("Your number is too small, try a bigger number\n");
         }
-        else
-        {
-            printf("Congratulations, you found the secret number!\n");
-        }
+
+        printf("Insert your number:\n");
+        scanf("%d", &answer);
     }
+
+    printf("Congratulations, you found the secret number!\n");
 
     return 0;
 }
