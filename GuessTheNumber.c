@@ -7,6 +7,7 @@ int main()
     int answer;
     int upper_bound = 10;
     int lower_bound = 0;
+    int attempts = 0;
 
     srand(time(0));
     int value = rand() % (upper_bound - lower_bound + 1) + lower_bound;
@@ -30,9 +31,10 @@ int main()
 
         printf("Insert your number:\n");
         scanf("%d", &answer);
+        attempts++;
     }
 
-    printf("Congratulations, you found the secret number!\n");
+    printf("Congratulations, you found the secret number in %d attempts!\n" , attempts);
 
     return 0;
 }
