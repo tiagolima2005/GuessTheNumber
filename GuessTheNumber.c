@@ -4,59 +4,94 @@
 
 int main()
 {
-    int answer;
-    int upper_bound;
-    int lower_bound = 0;
-    int attempts = 0;
-    int difficulty;
+    int answer;            // User's guess
+    int upper_bound;       // Upper limit for the random number
+    int lower_bound = 0;   // Lower limit for the random number
+    int attempts = 0;      // Counter for attempts
+    int difficulty;        // Difficulty level chosen by the user
+    int max_attempts = -1; // Maximum number of attempts (-1 means unlimited)
+    int game_won = 0;      // Flag to check if the player has won
 
+    // Welcome message and game instructions
     printf("Welcome to the 'Guess the Number'\n");
-    printf("Rules are simple, type a number and see if its the chosen number or not\n");
+    printf("Rules are simple, type a number and see if it’s the chosen number or not\n");
     printf("Good Luck!\n");
-    printf("Choose the difficulty level:\n1 - Easy (0-10)\n2 - Medium (0-50)\n3 - Hard (0-100)\n");
+    printf("Choose the difficulty level:\n");
+    printf("1 - Easy (0-10) (Unlimited attempts)\n");
+    printf("2 - Medium (0-50) (15 attempts)\n");
+    printf("3 - Hard (0-100) (10 attempts)\n");
     scanf("%d", &difficulty);
 
+    // Configure bounds and maximum attempts based on difficulty level
     if (difficulty == 1)
     {
-        upper_bound = 10;
+        upper_bound = 10; // Easy: Numbers between 0 and 10, unlimited attempts
     }
     else if (difficulty == 2)
     {
-        upper_bound = 50;
+        max_attempts = 15; // Medium: 15 attempts
+        upper_bound = 50;  // Numbers between 0 and 50
     }
     else if (difficulty == 3)
     {
-        upper_bound = 100;
+        max_attempts = 10; // Hard: 10 attempts
+        upper_bound = 100; // Numbers between 0 and 100
     }
     else
     {
-        printf("Invalid number. Defaulting to Easy Difficulty (0-10)");
+        // Invalid input defaults to Easy mode
+        printf("Invalid number. Defaulting to Easy Difficulty (0-10)\n");
         upper_bound = 10;
     }
 
+    // Generate a random number within the chosen range
     srand(time(0));
     int value = rand() % (upper_bound - lower_bound + 1) + lower_bound;
 
+    // Ask the user for their first guess
     printf("Insert your number:\n");
     scanf("%d", &answer);
 
-    while (answer != value)
+    // Main game loop
+    while (1) // Infinite loop, controlled by break statements
     {
+        attempts++; // Increment the attempt counter
+
+        // Check if the guess is correct
+        if (answer == value)
+        {
+            game_won = 1; // Mark the game as won
+            break;        // Exit the loop
+        }
+
+        // Check if the maximum attempts have been reached (for Medium/Hard levels)
+        if (max_attempts != -1 && attempts >= max_attempts)
+        {
+            // Game over message when attempts are exhausted
+            printf("Game Over! You've used all %d attempts. The number was %d.\n", max_attempts, value);
+            break;
+        }
+
+        // Provide hints to the user if the guess is incorrect
         if (answer > value)
         {
             printf("Your number is too big, try a smaller number\n");
         }
-        else if (answer < value)
+        else
         {
             printf("Your number is too small, try a bigger number\n");
         }
 
+        // Ask for another guess
         printf("Insert your number:\n");
         scanf("%d", &answer);
-        attempts++;
     }
 
-    printf("Congratulations, you found the secret number in %d attempts!\n", attempts);
+    // If the game was won, print the congratulatory message
+    if (game_won)
+    {
+        printf("Congratulations, you found the secret number in %d attempts!\n", attempts);
+    }
 
     return 0;
 }
