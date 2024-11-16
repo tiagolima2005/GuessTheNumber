@@ -16,11 +16,21 @@ int main()
     printf("Welcome to the 'Guess the Number'\n");
     printf("Rules are simple, type a number and see if it’s the chosen number or not\n");
     printf("Good Luck!\n");
-    printf("Choose the difficulty level:\n");
-    printf("1 - Easy (0-10) (Unlimited attempts)\n");
-    printf("2 - Medium (0-50) (15 attempts)\n");
-    printf("3 - Hard (0-100) (10 attempts)\n");
-    scanf("%d", &difficulty);
+
+    // Validate difficulty level
+    do
+    {
+        printf("Choose the difficulty level:\n");
+        printf("1 - Easy (0-10) (Unlimited attempts)\n");
+        printf("2 - Medium (0-50) (15 attempts)\n");
+        printf("3 - Hard (0-100) (10 attempts)\n");
+        scanf("%d", &difficulty);
+
+        if (difficulty < 1 || difficulty > 3)
+        {
+            printf("Invalid choice. Please try again.\n");
+        }
+    } while (difficulty < 1 || difficulty > 3); // Repeat until valid input
 
     // Configure bounds and maximum attempts based on difficulty level
     if (difficulty == 1)
@@ -37,16 +47,13 @@ int main()
         max_attempts = 10; // Hard: 10 attempts
         upper_bound = 100; // Numbers between 0 and 100
     }
-    else
-    {
-        // Invalid input defaults to Easy mode
-        printf("Invalid number. Defaulting to Easy Difficulty (0-10)\n");
-        upper_bound = 10;
-    }
 
     // Generate a random number within the chosen range
     srand(time(0));
     int value = rand() % (upper_bound - lower_bound + 1) + lower_bound;
+
+    // Inform the user about the range
+    printf("The number is between %d and %d.\n", lower_bound, upper_bound);
 
     // Ask the user for their first guess
     printf("Insert your number:\n");
