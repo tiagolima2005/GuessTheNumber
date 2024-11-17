@@ -27,8 +27,7 @@ int main()
         if (scanf("%d", &difficulty) != 1) // Check if the input is not an integer
         {
             printf("Invalid input. Please enter a number between 1 and 3.\n");
-            while (getchar() != '\n')
-                ;     // Clear invalid input from buffer
+            while (getchar() != '\n'); // Clear invalid input from buffer
             continue; // Restart the loop
         }
 
@@ -52,6 +51,17 @@ int main()
     {
         max_attempts = 10; // Hard: 10 attempts
         upper_bound = 100; // Numbers between 0 and 100
+    }
+
+    printf("You have chosen difficulty %d.\n" , difficulty);
+
+    if (max_attempts == -1)
+    {
+        printf("You have unlimited attempts to guess the number.\n");
+    }
+    else
+    {
+        printf("You have %d attempts to guess the number.\n" , max_attempts);
     }
 
     // Generate a random number within the chosen range
