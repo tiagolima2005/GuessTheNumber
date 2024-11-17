@@ -24,7 +24,13 @@ int main()
         printf("1 - Easy (0-10) (Unlimited attempts)\n");
         printf("2 - Medium (0-50) (15 attempts)\n");
         printf("3 - Hard (0-100) (10 attempts)\n");
-        scanf("%d", &difficulty);
+        if (scanf("%d", &difficulty) != 1) // Check if the input is not an integer
+        {
+            printf("Invalid input. Please enter a number between 1 and 3.\n");
+            while (getchar() != '\n')
+                ;     // Clear invalid input from buffer
+            continue; // Restart the loop
+        }
 
         if (difficulty < 1 || difficulty > 3)
         {
@@ -55,14 +61,26 @@ int main()
     // Inform the user about the range
     printf("The number is between %d and %d.\n", lower_bound, upper_bound);
 
-    // Ask the user for their first guess
-    printf("Insert your number:\n");
-    scanf("%d", &answer);
-
     // Main game loop
     while (1) // Infinite loop, controlled by break statements
     {
+        printf("Insert your number:\n");
+        if (scanf("%d", &answer) != 1) // Validate user input
+        {
+            printf("Invalid input. Please enter a valid number.\n");
+            while (getchar() != '\n')
+                ;     // Clear invalid input from buffer
+            continue; // Prompt the user again
+        }
+
         attempts++; // Increment the attempt counter
+
+        // Check if the guess is within the valid range
+        if (answer < lower_bound || answer > upper_bound)
+        {
+            printf("Your guess is out of range! Please enter a number between %d and %d.\n", lower_bound, upper_bound);
+            continue;
+        }
 
         // Check if the guess is correct
         if (answer == value)
@@ -82,16 +100,12 @@ int main()
         // Provide hints to the user if the guess is incorrect
         if (answer > value)
         {
-            printf("Your number is too big, try a smaller number\n");
+            printf("Your number is too big. Try a smaller number.\n");
         }
         else
         {
-            printf("Your number is too small, try a bigger number\n");
+            printf("Your number is too small. Try a bigger number.\n");
         }
-
-        // Ask for another guess
-        printf("Insert your number:\n");
-        scanf("%d", &answer);
     }
 
     // If the game was won, print the congratulatory message
