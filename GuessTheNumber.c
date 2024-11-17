@@ -11,6 +11,7 @@ int main()
     int difficulty;        // Difficulty level chosen by the user
     int max_attempts = -1; // Maximum number of attempts (-1 means unlimited)
     int game_won = 0;      // Flag to check if the player has won
+    char play_again;
 
     // Welcome message and game instructions
     printf("Welcome to the 'Guess the Number'\n");
@@ -122,6 +123,19 @@ int main()
     if (game_won)
     {
         printf("Congratulations, you found the secret number in %d attempts!\n", attempts);
+    }
+
+    printf("Do you want to play again? (y/n):");
+    while (getchar() != '\n');
+    scanf("%c" , &play_again);
+    if (play_again == 'y' || play_again == 'Y')
+    {
+        main();
+    }
+    else
+    {
+        printf("Thanks for playing!\n");
+        exit(0);
     }
 
     return 0;
