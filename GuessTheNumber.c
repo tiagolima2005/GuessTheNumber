@@ -7,36 +7,40 @@ int main()
     int answer;          // User's guess
     int upper_bound;     // Upper limit for the random number
     int lower_bound = 0; // Lower limit for the random number
-    int attempts;        // Counter for attempts
+    int attempts;        // Counter for the number of attempts
     int difficulty;      // Difficulty level chosen by the user
     int max_attempts;    // Maximum number of attempts (-1 means unlimited)
-    int game_won;        // Flag to check if the player has won
-    char play_again;
+    int game_won;        // Flag to indicate if the player has won the game
+    char play_again;     // Stores whether the user wants to play again
+
+    srand(time(0)); // Seed the random number generator (done once, outside the loop)
 
     do
     {
-        // Reset variables for a new game
+        // Reset game variables for a new round
         attempts = 0;
         game_won = 0;
         max_attempts = -1;
 
-        // Welcome message and game instructions
+        // Display welcome message and instructions
         printf("\nWelcome to the 'Guess the Number'\n");
         printf("Rules are simple: type a number and see if it's the chosen number or not.\n");
         printf("Good Luck!\n");
 
-        // Validate difficulty level
+        // Ask the player to choose a difficulty level, with input validation
         do
         {
             printf("Choose the difficulty level:\n");
             printf("1 - Easy (0-10) (Unlimited attempts)\n");
             printf("2 - Medium (0-50) (15 attempts)\n");
             printf("3 - Hard (0-100) (10 attempts)\n");
-            if (scanf("%d", &difficulty) != 1) // Check if the input is not an integer
+
+            // Check if the input is valid (an integer)
+            if (scanf("%d", &difficulty) != 1)
             {
                 printf("Invalid input. Please enter a number between 1 and 3.\n");
-                while (getchar() != '\n')
-                    ;     // Clear invalid input from buffer
+                while (getchar() != '\n') // Clear invalid input from the buffer
+                    ;
                 continue; // Restart the loop
             }
 
@@ -44,12 +48,12 @@ int main()
             {
                 printf("Invalid choice. Please try again.\n");
             }
-        } while (difficulty < 1 || difficulty > 3); // Repeat until valid input
+        } while (difficulty < 1 || difficulty > 3); // Repeat until a valid difficulty is chosen
 
-        // Configure bounds and maximum attempts based on difficulty level
+        // Configure game settings based on the chosen difficulty
         if (difficulty == 1)
         {
-            upper_bound = 10; // Easy: Numbers between 0 and 10, unlimited attempts
+            upper_bound = 10; // Easy: numbers between 0 and 10, unlimited attempts
         }
         else if (difficulty == 2)
         {
@@ -62,8 +66,8 @@ int main()
             upper_bound = 100; // Numbers between 0 and 100
         }
 
+        // Inform the user about their chosen difficulty and the number of attempts
         printf("You have chosen difficulty %d.\n", difficulty);
-
         if (max_attempts == -1)
         {
             printf("You have unlimited attempts to guess the number.\n");
@@ -74,25 +78,26 @@ int main()
         }
 
         // Generate a random number within the chosen range
-        srand(time(0));
         int value = rand() % (upper_bound - lower_bound + 1) + lower_bound;
 
-        // Inform the user about the range
+        // Inform the player about the range of the random number
         printf("The number is between %d and %d.\n", lower_bound, upper_bound);
 
         // Main game loop
-        while (1) // Infinite loop, controlled by break statements
+        while (1)
         {
             printf("Insert your number:\n");
-            if (scanf("%d", &answer) != 1) // Validate user input
+
+            // Validate the user's input
+            if (scanf("%d", &answer) != 1)
             {
                 printf("Invalid input. Please enter a valid number.\n");
-                while (getchar() != '\n')
-                    ;     // Clear invalid input from buffer
+                while (getchar() != '\n') // Clear invalid input from the buffer
+                    ;
                 continue; // Prompt the user again
             }
 
-            attempts++; // Increment the attempt counter
+            attempts++; // Increment the number of attempts
 
             // Check if the guess is within the valid range
             if (answer < lower_bound || answer > upper_bound)
@@ -105,18 +110,18 @@ int main()
             if (answer == value)
             {
                 game_won = 1; // Mark the game as won
-                break;        // Exit the loop
+                break;        // Exit the game loop
             }
 
-            // Check if the maximum attempts have been reached (for Medium/Hard levels)
+            // Check if the player has exceeded the maximum number of attempts
             if (max_attempts != -1 && attempts >= max_attempts)
             {
-                // Game over message when attempts are exhausted
+                // Inform the player of the game over
                 printf("Game Over! You've used all %d attempts. The number was %d.\n", max_attempts, value);
                 break;
             }
 
-            // Provide hints to the user if the guess is incorrect
+            // Provide a hint if the guess is incorrect
             if (answer > value)
             {
                 printf("Your number is too big. Try a smaller number.\n");
@@ -127,18 +132,18 @@ int main()
             }
         }
 
-        // If the game was won, print the congratulatory message
+        // Display a message if the player wins
         if (game_won)
         {
             printf("Congratulations, you found the secret number in %d attempts!\n", attempts);
         }
 
-        // Ask the user if they want to play again
+        // Ask the player if they want to play again
         while (1)
         {
             printf("Do you want to play again? (y/n): ");
-            while (getchar() != '\n')
-                ; // Clear buffer
+            while (getchar() != '\n') // Clear buffer
+                ;
             scanf("%c", &play_again);
 
             if (play_again == 'y' || play_again == 'Y')
@@ -156,7 +161,7 @@ int main()
             }
         }
 
-    } while (1); // Restart the game if the player chooses to play again
+    } while (1); // Restart the game if the player wants to play again
 
-    return 0;
+    return 0; // Exit the program
 }
